@@ -5,11 +5,11 @@ terraform {
         version = "~> 5.43.0"
       }
     }
-    # backend "s3" {
-    #   bucket = "terraform-codepipeline-api"
-    #   key    = "apiFlaskStateFile"
-    #   region = "us-east-1"
-    # }
+    backend "s3" {
+      bucket = "terraform-codepipeline-lambda"
+      key    = "apiLambdaStateFile"
+      region = "us-east-1"
+    }
 }
 
 provider "aws" {
