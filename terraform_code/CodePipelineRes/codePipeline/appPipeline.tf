@@ -19,7 +19,7 @@ resource "aws_codepipeline" "example" {
       version  = "1"
       configuration = {
         ConnectionArn = aws_codestarconnections_connection.gitHubConnection.arn
-        FullRepositoryId = var.repositoryName
+        FullRepositoryId = "lalith93kumar/${var.repositoryName}"
         BranchName     = var.branch
       }
 
@@ -57,19 +57,9 @@ resource "aws_codepipeline" "example" {
               value = "${var.region}"
             },
             {
-              name  = "AWS_ACCOUNT_ID"
-              type  = "PLAINTEXT"
-              value = "${var.accountID}"
-            },
-            {
               name  = "REPOSITORYNAME"
               type  = "PLAINTEXT"
               value = "${var.repositoryName}"
-            },
-            {
-              name  = "CLUSTERNAME"
-              type  = "PLAINTEXT"
-              value = "${var.clusterName}"
             }
             ])
         }

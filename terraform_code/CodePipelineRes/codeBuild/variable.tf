@@ -6,10 +6,6 @@ variable "codeBuildIamArn" {
   description = "code build Iam role -> arn"
 }
 
-variable "repositoryUrl" {
-  description = "Repository Url from codeCommit"
-}
-
 variable "branch" {
   description = "Repository branch name"
 }

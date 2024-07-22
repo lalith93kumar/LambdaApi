@@ -16,7 +16,6 @@ resource "aws_codebuild_project" "dockerBuildProject" {
   }
   source {
     type            = "CODEPIPELINE"
-    location        = var.repositoryUrl
     git_clone_depth = 0
     buildspec       = lookup(var.projectList[count.index],"specfile","codeBuildSample")
   }

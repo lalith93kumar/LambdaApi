@@ -5,11 +5,6 @@ terraform {
       version = "~> 5.43.0"
       }
     }
-    # backend "s3" {
-    #   bucket = "terraform-codepipeline-api"
-    #   key    = "codePipelineStateFile"
-    #   region = "us-east-1"
-    # }
 }
 
 provider "aws" {
