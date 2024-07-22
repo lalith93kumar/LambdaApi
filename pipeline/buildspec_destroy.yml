@@ -16,7 +16,7 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/${TERRAFORM_CODE_SRC_DIR}
       - terraform init
       - echo "## TERRAFORM PLAN = Generate the Terraform Plan"
-      - terraform destory -var "region=${AWS_DEFAULT_REGION}" --auto-approve
+      - terraform destroy -var "region=${AWS_DEFAULT_REGION}" --auto-approve
 artifacts:
   files:
     - '**/*'
