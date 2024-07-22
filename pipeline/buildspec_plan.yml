@@ -1,0 +1,25 @@
+version: 0.2
+
+env:
+  variables:
+    TERRAFORM_CODE_SRC_DIR: terraform_code/LambdaTF
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip install poetry
+      - yum install -y yum-utils
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum -y install terraform
+  build:
+    commands:
+      - cd ${CODEBUILD_SRC_DIR}/${API_CODE_SRC_DIR}
+      - tagname=$(poetry version -s)
+      - cd ${CODEBUILD_SRC_DIR}/${TERRAFORM_CODE_SRC_DIR}
+      - terraform init
+      - echo "## TERRAFORM PLAN = Generate the Terraform Plan"
+      - terraform plan -var "region=${AWS_DEFAULT_REGION}" -out tfapply
+artifacts:
+  files:
+    - '**/*'
