@@ -19,7 +19,7 @@ resource "aws_codepipeline" "example" {
       version  = "1"
       configuration = {
         ConnectionArn = aws_codestarconnections_connection.gitHubConnection.arn
-        FullRepositoryId = "lalith93kumar/${var.repositoryName}"
+        FullRepositoryId = var.repositoryUrl
         BranchName     = var.branch
       }
 

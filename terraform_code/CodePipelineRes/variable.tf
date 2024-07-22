@@ -14,3 +14,9 @@ variable "projectList" {
   {"name"="CTerraformApply","specfile"="pipeline/buildspec_apply.yml"},
   {"name"="DTerraformDestroy-approval","specfile"="pipeline/buildspec_destroy.yml"}]
 }
+
+
+variable "repositoryUrl" {
+  description = "Repository Url from github with http://github.com"
+  default = "lalith93kumar/LambdaApi"
+}

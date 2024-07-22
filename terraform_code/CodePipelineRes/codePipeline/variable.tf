@@ -24,3 +24,7 @@ variable "s3BucketId" {
 variable "region" {
     description = "aws region needs to be set"
 }
+
+variable "repositoryUrl" {
+  description = "Repository Url from github with http://github.com"
+}

@@ -33,4 +33,5 @@ module "CodePipelineProjectsDockerBuild" {
     s3BucketId = module.ArtifactoryBucket.s3BucketId
     DockerBuildProjectName = toset(module.CodeBuildProjectsDockerBuild.DockerBuildProjectName)
     region = var.region
+    repositoryUrl = var.repositoryUrl
 }
