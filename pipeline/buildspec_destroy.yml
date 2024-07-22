@@ -1,0 +1,22 @@
+version: 0.2
+
+env:
+  variables:
+    TERRAFORM_CODE_SRC_DIR: terraform_code/LambdaTF
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - yum install -y yum-utils
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum -y install terraform
+  build:
+    commands:
+      - cd ${CODEBUILD_SRC_DIR}/${TERRAFORM_CODE_SRC_DIR}
+      - terraform init
+      - echo "## TERRAFORM PLAN = Generate the Terraform Plan"
+      - terraform destory -var "region=${AWS_DEFAULT_REGION}" --auto-approve
+artifacts:
+  files:
+    - '**/*'
