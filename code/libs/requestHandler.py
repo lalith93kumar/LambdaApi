@@ -49,12 +49,34 @@ def manipulateData(event):
         vehicle_id = record['vehicle_id']
         for tracking in record['payload']['tracking']:
             speed = tracking['speed']
-            
+            ignition = tracking['ignition']
             if vehicle_id not in result['vehicle_speeds']:
-                result['vehicle_speeds'][vehicle_id] = []
-            
-            result['vehicle_speeds'][vehicle_id].append(speed)
-            result['total_speed'] += speed
-            result['total_records'] += 1
+                result['vehicle_speeds'][vehicle_id] = {}
+                result['vehicle_speeds'][vehicle_id]['speed'] = []
+                result['vehicle_speeds'][vehicle_id]['parkedCount'] = 0
+                result['vehicle_speeds'][vehicle_id]['idlingCount'] = 0
+                result['vehicle_speeds'][vehicle_id]['movingCount'] = 0  
+            if ignition == 0:
+               result['vehicle_speeds'][vehicle_id]['status'] = 'PARKED'
+               result['vehicle_speeds'][vehicle_id]['parkedCount'] +=1
+            if ignition == 1 and speed == 0:
+               result['vehicle_speeds'][vehicle_id]['status'] = 'IDLING'
+               result['vehicle_speeds'][vehicle_id]['idlingCount'] +=1   
+            if ignition == 1 and speed > 0:
+               result['vehicle_speeds'][vehicle_id]['status'] = 'MOVING'
+               result['vehicle_speeds'][vehicle_id]['movingCount'] +=1  
+            result['vehicle_speeds'][vehicle_id]['speed'].append(speed)
     return result
         
+def getFastestVehicle(result):
+    fastest_vehicle = None
+    if result['vehicle_speeds']:
+        fastest_vehicle = max(result['vehicle_speeds'], key=lambda k: sum(result['vehicle_speeds'][k]['speed']) / len(result['vehicle_speeds'][k]['speed']))
+    return fastest_vehicle
+
+def getLongestVehicle(result,key):
+    vehicle = None
+    if result['vehicle_speeds']:
+        vehicle = max(result['vehicle_speeds'], key=lambda k: result['vehicle_speeds'][k][key] / len(result['vehicle_speeds'][k]['speed']))
+    return vehicle
+    

@@ -3,36 +3,36 @@ import statistics
 import boto3
 from base64 import b64decode
 import os
-from libs.requestHandler import validate_record,manipulateData
+from libs.requestHandler import manipulateData,getFastestVehicle,getLongestVehicle
 # Initialize DynamoDB client
 lambdaClient = boto3.client('lambda')
 
 def lambda_handler(event, context):
 
-    lambdaClient.invoke(
-        FunctionName= os.environ['DynamodbTrackerARN'],
-        InvocationType = 'Event',
-        Payload = json.dumps(event)
-    )
     response = {
         "total_vehicles": 0,
+        "longest_Parked_vehicle": None,
+        "longest_idling_vehicle": None,
+        "longest_moving_vehicle": None,
         "fastest_vehicle": None,
-        "average_speed": 0
     }
     
     try:
         result = manipulateData(event)
+        lambdaClient.invoke(
+            FunctionName= os.environ['DynamodbTrackerARN'],
+            InvocationType = 'Event',
+            Payload = json.dumps(event)
+        )
         if('statusCode' in result):
             return result
         
         total_vehicles = len(result['vehicle_speeds'])
         response['total_vehicles'] = total_vehicles
-        if result['total_records'] > 0:
-            response['average_speed'] = result['total_speed'] / result['total_records']
-        
-        if result['vehicle_speeds']:
-            fastest_vehicle = max(result['vehicle_speeds'], key=lambda k: sum(result['vehicle_speeds'][k]) / len(result['vehicle_speeds'][k]))
-            response['fastest_vehicle'] = fastest_vehicle
+        response['fastest_vehicle'] = getFastestVehicle(result)
+        response['longest_Parked_vehicle'] = getLongestVehicle(result,'parkedCount')
+        response['longest_idling_vehicle'] = getLongestVehicle(result,'idlingCount')
+        response['longest_moving_vehicle'] = getLongestVehicle(result,'movingCount')
         
         return {
             'statusCode': 200,
