@@ -7,7 +7,13 @@ resource "aws_dynamodb_table" "VehicleData" {
     type = "S"
   }
 
-  hash_key = "vehicle_id"
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  hash_key = "id"
+  range_key = "vehicle_id"
 
   tags = {
     Name        = "VehicleData"

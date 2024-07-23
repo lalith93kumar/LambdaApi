@@ -41,27 +41,30 @@ resource "aws_codepipeline" "example" {
           version  = "1"
         }
       }
-      action {
-        name            = split("-",stage.value)[0]
-        category        = "Build"
-        owner           = "AWS"
-        provider        = "CodeBuild"
-        version         = "1"
-        input_artifacts = ["source_artifact"]
-        configuration = {
-          ProjectName = stage.value,
-          EnvironmentVariables = jsonencode([
-            {
-              name  = "AWS_DEFAULT_REGION"
-              type  = "PLAINTEXT"
-              value = "${var.region}"
-            },
-            {
-              name  = "REPOSITORYNAME"
-              type  = "PLAINTEXT"
-              value = "${var.repositoryName}"
-            }
-            ])
+      dynamic action {
+        for_each = strcontains(lower(split("-",stage.value)[1]),"approval") ? [] : [1]
+        content {
+          name            = split("-",stage.value)[0]
+          category        = "Build"
+          owner           = "AWS"
+          provider        = "CodeBuild"
+          version         = "1"
+          input_artifacts = ["source_artifact"]
+          configuration = {
+            ProjectName = stage.value,
+            EnvironmentVariables = jsonencode([
+              {
+                name  = "AWS_DEFAULT_REGION"
+                type  = "PLAINTEXT"
+                value = "${var.region}"
+              },
+              {
+                name  = "REPOSITORYNAME"
+                type  = "PLAINTEXT"
+                value = "${var.repositoryName}"
+              }
+              ])
+          }
         }
       }
     }

@@ -12,7 +12,8 @@ variable "projectList" {
   default = [
   {"name"="BTerraformPlan","specfile"="pipeline/buildspec_plan.yml"},
   {"name"="CTerraformApply","specfile"="pipeline/buildspec_apply.yml"},
-  {"name"="DTerraformDestroy-approval","specfile"="pipeline/buildspec_destroy.yml"}]
+  {"name"="DMannual-approval"},
+  {"name"="ETerraformDestroy-approval","specfile"="pipeline/buildspec_destroy.yml"}]
 }
 
 

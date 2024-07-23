@@ -2,7 +2,7 @@ import json
 import statistics
 import boto3
 from base64 import b64decode
-import zlib
+import uuid
 from botocore.exceptions import ClientError
 
 # Initialize DynamoDB client
@@ -14,6 +14,7 @@ def dynamodb_handler(event, context):
         try:
             table.put_item(
                 Item={
+                    'id': str(uuid.uuid4()),
                     'vehicle_id': event['vehicle_id'],
                     'timestamp': stats['timestamp'],
                     'ignition': stats['ignition'],
