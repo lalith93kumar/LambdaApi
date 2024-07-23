@@ -11,3 +11,4 @@ instance
 test5.db
 .terraform
 *.terraform.lock*
+nametest.zip
