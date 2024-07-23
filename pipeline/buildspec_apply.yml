@@ -3,6 +3,7 @@ version: 0.2
 env:
   variables:
     TERRAFORM_CODE_SRC_DIR: terraform_code/LambdaTF
+    REPOSITORYNAME: xxxx
 phases:
   install:
     runtime-versions:
@@ -16,7 +17,7 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/${TERRAFORM_CODE_SRC_DIR}
       - terraform init
       - echo "## TERRAFORM PLAN = Generate the Terraform Plan"
-      - terraform apply -var "region=${AWS_DEFAULT_REGION}" --auto-approve
+      - terraform apply -var "region=${AWS_DEFAULT_REGION}" -var "repositoryName=${REPOSITORYNAME}" --auto-approve
 artifacts:
   files:
     - '**/*'

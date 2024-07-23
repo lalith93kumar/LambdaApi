@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "test_lambda_function" {
-    function_name = "lambdaTest"
+    function_name = "${var.repositoryName}-lambda"
     filename      = "nametest.zip"
     source_code_hash = var.archiveFileBase64Sha
     role          = var.lambdaAssumRoleARN
@@ -14,7 +14,7 @@ resource "aws_lambda_function" "test_lambda_function" {
 }
 
 resource "aws_lambda_function" "DynamodbTracker" {
-    function_name = "DynamodbTracker"
+    function_name = "${var.repositoryName}-DynamodbTracker"
     filename      = "nametest.zip"
     source_code_hash = var.archiveFileBase64Sha
     role          = var.lambdaAssumRoleARN
