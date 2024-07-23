@@ -17,7 +17,7 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/${TERRAFORM_CODE_SRC_DIR}
       - terraform init
       - echo "## TERRAFORM PLAN = Generate the Terraform Plan"
-      - terraform plan -var "region=${AWS_DEFAULT_REGION}" -var "region=${REPOSITORYNAME}" -out tfapply
+      - terraform plan -var "region=${AWS_DEFAULT_REGION}" -var "repositoryName=${REPOSITORYNAME}" -out tfapply
 artifacts:
   files:
     - '**/*'
