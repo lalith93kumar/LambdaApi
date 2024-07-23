@@ -7,7 +7,7 @@ resource "aws_cloudwatch_event_rule" "test-lambda" {
 resource "aws_cloudwatch_event_target" "lambda-function-target" {
   target_id = "${var.repositoryName}-lambda-function-target"
   rule      = aws_cloudwatch_event_rule.test-lambda.name
-  arn       = var.lambdaFunctionArm
+  arn       = var.lambdaFunctionArn
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch" {
@@ -15,5 +15,5 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
     action = "lambda:InvokeFunction"
     function_name = var.lambdaFunctionName
     principal = "events.amazonaws.com"
-    source_arn = var.lambdaFunctionArm
+    source_arn = var.lambdaFunctionArn
 }

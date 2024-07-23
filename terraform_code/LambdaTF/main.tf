@@ -21,7 +21,14 @@ module "lambda" {
 
 module "cloudWatchLogs" {
     source = "./cloudWatch"
-    lambdaFunctionArm = module.lambda.lambdaFunctionArm
+    lambdaFunctionArn = module.lambda.lambdaFunctionArn
     lambdaFunctionName = module.lambda.lambdaFunctionName
     repositoryName = var.repositoryName
+}
+
+module "apiGateway" {
+    source = "./apiGateway"
+    lambdaFunctionInvokeArn = module.lambda.lambdaFunctionInvokeArn
+    lambdaFunctionName = module.lambda.lambdaFunctionName
+    lambdaAssumRoleName = module.iamRole.lambdaAssumRoleName
 }
