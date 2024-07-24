@@ -35,7 +35,7 @@ This repository contains an AWS Lambda function designed to process vehicle tele
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/lalith93kumar/PythonApiSolventum.git
+    git clone git@github.com:lalith93kumar/LambdaApi.git
     cd LambdaApi/code
     ```
 
@@ -155,7 +155,7 @@ To automate the infrastructure setup for this project, we use Terraform. The fol
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/lalith93kumar/PythonApiSolventum.git
+    git clone git@github.com:lalith93kumar/LambdaApi.git
     cd LambdaApi/terraform_code/CodePipelineRes
     ```
 
