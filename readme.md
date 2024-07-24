@@ -175,7 +175,7 @@ To automate the infrastructure setup for this project, we use Terraform. The fol
     terraform apply -var "repositoryUrl=${REPOSITORYNAMEURL}" -var "repositoryName=${REPOSITORYNAME}" -var "region=${AWS_DEFAULT_REGION}"  --auto-approve
     ```
 4. Activate the github connection under URl `http://{AWS_Console}/codesuite/settings/connections` & retry the stages in pipeline for first time only
-Hit Post call with terraform output with json body specified.
+Hit Post call with terraform output api endpoint with json body specified.
 
 ## Resource Identifications
 
