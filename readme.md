@@ -11,6 +11,8 @@ This repository contains an AWS Lambda function designed to process vehicle tele
 - [Setup](#setup)
 - [Running the Application](#running-the-application)
 - [Usage](#usage)
+- [Explanation of Function Output](#explanation-of-function-output)
+- [Reasoning for Implementation](#reasoning-for-implementation)
 - [Terraform](#terraform)
 - [ToDo](#todo)
 
@@ -107,6 +109,49 @@ aws lambda invoke \
 }
 ```
 
+
+## Explanation of Function Output
+
+The Lambda function processes vehicle telematics data and generates the following output:
+
+- Total Number of Vehicles: The function calculates and outputs the total number of unique vehicles in the input data.
+
+- Fastest Vehicle on Average: The function determines and outputs the vehicle with the highest average speed based on the tracking data provided.
+
+- Longest Idling Vehicle : To determine the longest idling vehicle, we need to analyze the data and find the vehicle with the longest continuous period where the ignition is on (ignition value is 1), and the speed is 0.
+
+- Longest Parked Vehicle : To determine the longest idling vehicle, we need to analyze the data and find the vehicle with the longest continuous period where the ignition is on (ignition value is 0).
+
+- Longest Moving Vehicle : To determine the longest idling vehicle, we need to analyze the data and find the vehicle with the longest continuous period where the ignition is on (ignition value is 1), and the speed is 1+.
+
+## Reasoning for Implementation
+
+The implementation is structured to address the problem requirements efficiently:
+
+- Validation of Input Data:
+
+  - The function first validates the input data to ensure all necessary fields are present and correctly formatted. This prevents errors during data processing.
+  - It checks for the presence of vehicle_id, payload, and within payload, the tracking array. Each tracking item is checked for timestamp, ignition, and speed.
+
+- Processing Each Record:
+
+  - For each valid record, the function extracts the vehicle_id and iterates through the tracking data to extract individual tracking points.
+  - Each tracking point includes a timestamp, ignition, and speed.
+
+- Storing Data in DynamoDB:
+
+  - The function stores each tracking point in a DynamoDB table. The table schema uses vehicle_id as the partition key and timestamp as the sort key, allowing efficient querying by vehicle and time.
+
+- Calculating Statistics:
+
+  - Total Number of Vehicles: The function maintains a set of unique vehicle_ids to determine the total number of vehicles.
+  - Fastest Vehicle on Average: It maintains a dictionary to store the speeds for each vehicle and calculates the average speed for each vehicle. The vehicle with the highest average speed is identified as the fastest.
+  - Average Speed of All Vehicles: It calculates the overall average speed by summing the speeds of all tracking points and dividing by the total number of points.
+
+- Error Handling:
+
+  - The function includes comprehensive error handling to catch and report any issues that arise during data validation, processing, or storage.
+
 ## Terraform
 
 To automate the infrastructure setup for this project, we use Terraform. The following instructions assume that you have Terraform installed and configured.
@@ -142,9 +187,11 @@ To automate the infrastructure setup for this project, we use Terraform. The fol
 
     terraform apply -var "repositoryUrl=${REPOSITORYNAMEURL}" -var "repositoryName=${REPOSITORYNAME}" -var "region=${AWS_DEFAULT_REGION}"  --auto-approve
     ```
+Hit Post call with terraform output with json body specified.
 
 ## Resource Identifications
 
+- API Gateway : ${REPOSITORYNAME}-api
 - API Lambda : ${REPOSITORYNAME}-lambda
 - Dynamodb Tracker Lambda : ${REPOSITORYNAME}-DynamodbTracker
 - Code Pipeline : ${REPOSITORYNAME}-pipeline

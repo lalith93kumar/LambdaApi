@@ -1,11 +1,6 @@
 import json
-import statistics
-import boto3
-from base64 import b64decode
-import os
 from libs.requestHandler import manipulateData,getFastestVehicle,getLongestVehicle
-# Initialize DynamoDB client
-lambdaClient = boto3.client('lambda')
+import traceback
 
 def lambda_handler(event, context):
 
@@ -19,11 +14,6 @@ def lambda_handler(event, context):
     
     try:
         result = manipulateData(event)
-        lambdaClient.invoke(
-            FunctionName= os.environ['DynamodbTrackerARN'],
-            InvocationType = 'Event',
-            Payload = json.dumps(event)
-        )
         if('statusCode' in result):
             return result
         
@@ -33,14 +23,13 @@ def lambda_handler(event, context):
         response['longest_Parked_vehicle'] = getLongestVehicle(result,'parkedCount')
         response['longest_idling_vehicle'] = getLongestVehicle(result,'idlingCount')
         response['longest_moving_vehicle'] = getLongestVehicle(result,'movingCount')
-        
         return {
             'statusCode': 200,
-            'body': json.dumps(response)
+            'body': response
         }
         
     except Exception as e:
         return {
             'statusCode': 500,
-            'body': json.dumps({"error": str(e)})
+            'body': json.dumps({"error": str(e), "traceback": traceback.format_exc()})
         }
