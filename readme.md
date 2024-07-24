@@ -50,19 +50,6 @@ This repository contains an AWS Lambda function designed to process vehicle tele
     pip install boto3
     ```
 
-## Running the Application
-
-1. Set the Flask environment variables:
-    ```bash
-    export FLASK_APP=app.py
-    export FLASK_ENV=development
-    ```
-
-3. Run the Flask application:
-    ```bash
-    poetry run flask run --host=0.0.0.0
-    ```
-
 ## Usage
 
 #### Invoke the Lambda Function
@@ -187,11 +174,13 @@ To automate the infrastructure setup for this project, we use Terraform. The fol
 
     terraform apply -var "repositoryUrl=${REPOSITORYNAMEURL}" -var "repositoryName=${REPOSITORYNAME}" -var "region=${AWS_DEFAULT_REGION}"  --auto-approve
     ```
+4. Activate the github connection under URl `http://{AWS_Console}/codesuite/settings/connections` & retry the stages in pipeline for first time only
 Hit Post call with terraform output with json body specified.
 
 ## Resource Identifications
 
-- API Gateway : ${REPOSITORYNAME}-api
+- CodePipeline Connections : gitHubConnection (Please activate it for first time)
+- API Gateway : ${REPOSITORYNAME}-api 
 - API Lambda : ${REPOSITORYNAME}-lambda
 - Dynamodb Tracker Lambda : ${REPOSITORYNAME}-DynamodbTracker
 - Code Pipeline : ${REPOSITORYNAME}-pipeline
