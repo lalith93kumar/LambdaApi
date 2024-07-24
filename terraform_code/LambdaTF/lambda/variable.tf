@@ -1,9 +1,9 @@
 variable "lambdaAssumRoleARN" {
-    description = "aws region needs to be set "
+    description = "IAM role to attached for Lambda Function"
 }
 
 variable "archiveFileBase64Sha" {
-    description = "aws region needs to be set "
+    description = "zip file sha to attach to lamda Function"
 }
 
 variable "repositoryName" {

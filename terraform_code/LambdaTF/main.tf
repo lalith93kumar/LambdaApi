@@ -31,4 +31,5 @@ module "apiGateway" {
     lambdaFunctionInvokeArn = module.lambda.lambdaFunctionInvokeArn
     lambdaFunctionName = module.lambda.lambdaFunctionName
     lambdaAssumRoleName = module.iamRole.lambdaAssumRoleName
+    repositoryName = var.repositoryName
 }

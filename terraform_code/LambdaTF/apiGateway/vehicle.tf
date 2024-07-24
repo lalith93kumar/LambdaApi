@@ -1,6 +1,6 @@
 resource "aws_api_gateway_rest_api" "my_api" {
-  name = "my-api"
-  description = "My API Gateway"
+  name = "${var.repositoryName}-api"
+  description = "${var.repositoryName} API Gateway"
 
   endpoint_configuration {
     types = ["REGIONAL"]
@@ -59,7 +59,7 @@ resource "aws_api_gateway_deployment" "deployment" {
 
 resource "aws_iam_role_policy_attachment" "lambda_basic" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  role = var.lambdaFunctionName
+  role = var.lambdaAssumRoleName
 }
 
 resource "aws_lambda_permission" "apigw_lambda" {

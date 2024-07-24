@@ -1,14 +1,16 @@
 variable "lambdaFunctionInvokeArn" {
-    description = "aws region needs to be set "
-    default = "us-east-1"
+    description = "Lambda invoke ARN Function to be attach API Gateway"
 }
 
 variable "lambdaAssumRoleName" {
-    description = "aws region needs to be set "
+    description = "Lambda IAM Name Function to be attach API Gateway"
 }
 
 
 variable "lambdaFunctionName" {
-    description = "aws region needs to be set "
-    default = "us-east-1"
+    description = "Lambda Name Function to be attach API Gateway"
+}
+
+variable "repositoryName" {
+    description = "repository name"
 }

@@ -1,5 +1,5 @@
 variable "vehicleDynamodbTableArn" {
-    description = "aws region needs to be set "
+    description = "Dynamodb Table Arn to attach in IAM role"
 }
 
 variable "repositoryName" {

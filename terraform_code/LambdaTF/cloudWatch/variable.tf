@@ -1,11 +1,9 @@
 variable "lambdaFunctionArn" {
-    description = "aws region needs to be set "
-    default = "us-east-1"
+    description = "Lambda Arn Function to be attach cloudwatch"
 }
 
 variable "lambdaFunctionName" {
-    description = "aws region needs to be set "
-    default = "us-east-1"
+    description = "Lambda Name Function to be attach cloudwatch"
 }
 
 variable "repositoryName" {
